@@ -20,6 +20,26 @@ class JournalService {
         body: jsonJournal,
       );
 
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> edit(String id, Journal journal) async {
+    try {
+      String jsonJournal = json.encode(journal.toMap());
+
+      var response = await http.put(
+        Uri.parse("${getUrl()}$id"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonJournal,
+      );
+
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -45,5 +65,19 @@ class JournalService {
     }
 
     return list;
+  }
+
+  Future<bool> delete(String id) async {
+    try {
+      http.Response response = await http.delete(Uri.parse("${getUrl()}$id"));
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
   }
 }
