@@ -10,7 +10,7 @@ class JournalService {
     return "$url$resource";
   }
 
-  Future<void> register(Journal journal) async {
+  Future<bool> register(Journal journal) async {
     try {
       String jsonJournal = json.encode(journal.toMap());
 
@@ -21,19 +21,29 @@ class JournalService {
       );
 
       if (response.statusCode == 200) {
-        print("Request successful: ${response.body}");
+        return true;
       } else {
-        print("Failed with status: ${response.statusCode}");
-        print("Response body: ${response.body}");
+        return false;
       }
     } catch (e) {
-      print("Error: $e");
+      return false;
     }
   }
 
-  Future<String> get() async {
+  Future<List<Journal>> getAll() async {
     http.Response response = await http.get(Uri.parse(getUrl()));
 
-    return response.body;
+    if (response.statusCode != 200) {
+      throw Exception();
+    }
+
+    List<Journal> list = [];
+    List<dynamic> listDynamic = json.decode(response.body);
+
+    for (var jsonMap in listDynamic) {
+      list.add(Journal.fromMap(jsonMap));
+    }
+
+    return list;
   }
 }
