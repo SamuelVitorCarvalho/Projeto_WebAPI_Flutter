@@ -1,4 +1,16 @@
 {
+  "users": [
+    {
+      "email": "samuel@gmail.com",
+      "password": "$2a$10$1RbJnbWmli8ulpGB/Mmtr.SsFfVJY7gioNSfXeWH2ewzMZ.zVmTva",
+      "id": 1
+    },
+    {
+      "email": "samuel23@gmail.com",
+      "password": "$2a$10$20q6R6HLcL48C33KSpxcxu6VyP2WgcE7SkrHlvOyPJg6jVbV22iKy",
+      "id": 2
+    }
+  ],
   "learnhttp": {
     "content": "Olá Mundo!"
   },

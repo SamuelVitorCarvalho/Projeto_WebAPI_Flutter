@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'models/journal.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
 import 'screens/home_screen/home_screen.dart';
+import 'screens/login_screen/login_screen.dart';
 import 'services/journal_service.dart';
 
 void main() {
@@ -10,7 +11,7 @@ void main() {
 
   JournalService service = JournalService();
   // service.register(Journal.empty());
-  service.getAll();
+  // service.getAll();
 }
 
 class MyApp extends StatelessWidget {
@@ -34,9 +35,10 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.bitterTextTheme()),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      initialRoute: "home",
+      initialRoute: "login",
       routes: {
         "home": (context) => const HomeScreen(),
+        "login": (context) => LoginScreen()
       },
       onGenerateRoute: (settings) {
         if (settings.name == 'add-journal') {
