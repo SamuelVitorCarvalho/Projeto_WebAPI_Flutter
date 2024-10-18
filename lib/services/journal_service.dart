@@ -34,6 +34,7 @@ class JournalService {
   }
 
   Future<bool> edit(String id, Journal journal, String token) async {
+    journal.updatedAt = DateTime.now();
     String jsonJournal = json.encode(journal.toMap());
 
     var response = await http.put(

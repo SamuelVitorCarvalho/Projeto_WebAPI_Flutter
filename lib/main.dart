@@ -5,17 +5,12 @@ import 'models/journal.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
 import 'screens/home_screen/home_screen.dart';
 import 'screens/login_screen/login_screen.dart';
-import 'services/journal_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   bool isLogged = await verifyToken();
   runApp(MyApp(isLogged: isLogged,));
-
-  JournalService service = JournalService();
-  // service.register(Journal.empty());
-  // service.getAll();
 }
 
 Future<bool> verifyToken() async {

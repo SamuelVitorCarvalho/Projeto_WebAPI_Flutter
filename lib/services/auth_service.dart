@@ -5,13 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  // TODO: Modularizar o endpoint
-
   static const String url = "http://192.168.1.16:3000/";
 
   Future<bool> login({required String email, required String password}) async {
-    http.Response response = await http.post(Uri.parse('${url}login'),
-        body: {'email': email, 'password': password});
+    http.Response response = await http.post(Uri.parse('${url}login'), body: {
+      'email': email,
+      'password': password
+    }).timeout(const Duration(seconds: 5));
 
     if (response.statusCode != 200) {
       String content = jsonDecode(response.body);
@@ -29,7 +29,8 @@ class AuthService {
     return true;
   }
 
-  Future<bool> register({required String email, required String password}) async {
+  Future<bool> register(
+      {required String email, required String password}) async {
     http.Response response = await http.post(
       Uri.parse('${url}register'),
       body: {'email': email, 'password': password},
@@ -55,9 +56,6 @@ class AuthService {
     prefs.setString("accessToken", token);
     prefs.setString("email", email);
     prefs.setInt("id", id);
-
-    String? tokenSalvo = prefs.getString("accessToken");
-    print(tokenSalvo);
   }
 }
 

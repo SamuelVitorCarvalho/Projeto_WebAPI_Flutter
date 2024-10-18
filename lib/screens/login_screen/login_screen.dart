@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/screens/commom/confirmation_dialog.dart';
 import 'package:flutter_webapi_first_course/screens/commom/exception_dialog.dart';
@@ -8,10 +8,9 @@ import 'package:flutter_webapi_first_course/services/auth_service.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passController = TextEditingController();
-
-  AuthService service = AuthService();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final AuthService service = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +70,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  login(BuildContext context) async {
+  login(BuildContext context) {
     String email = _emailController.text;
     String password = _passController.text;
 
@@ -104,6 +103,12 @@ class LoginScreen extends StatelessWidget {
           });
         }
       });
-    }, test: (error) => error is UserNotFindException);
+    }, test: (error) => error is UserNotFindException).catchError(
+      (error) {
+        showExceptionDialog(context, content: "O servidor demorou para "
+            "responder, tente novamente mais tarde!");
+      },
+      test: (error) => error is TimeoutException,
+    );
   }
 }
