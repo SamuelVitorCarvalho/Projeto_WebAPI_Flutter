@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   JournalService service = JournalService();
 
   int? userId;
+  String? userToken;
 
   @override
   void initState() {
@@ -43,7 +44,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: const Icon(Icons.refresh))
           ],
         ),
-        body: (userId != null)
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              ListTile(
+                onTap: () {
+                  logout();
+                },
+                title: Text("Sair"),
+                leading: Icon(Icons.logout),
+              )
+            ],
+          ),
+        ),
+        body: (userId != null && userToken != null)
             ? ListView(
                 controller: _listScrollController,
                 children: generateListJournalCards(
@@ -52,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentDay: currentDay,
                   database: database,
                   userId: userId!,
+                  token: userToken!,
                 ),
               )
             : const Center(
@@ -68,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (token != null && email != null && id != null) {
         setState(() {
           userId = id;
+          userToken = token;
         });
 
         service
@@ -84,6 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         Navigator.pushReplacementNamed(context, "login");
       }
+    });
+  }
+
+  void logout() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.clear();
+      Navigator.pushReplacementNamed(context, "login");
     });
   }
 }
