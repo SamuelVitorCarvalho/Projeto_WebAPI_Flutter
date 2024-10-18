@@ -10,13 +10,16 @@ class JournalService {
     return "$url$resource";
   }
 
-  Future<bool> register(Journal journal) async {
+  Future<bool> register(Journal journal, String token) async {
     try {
       String jsonJournal = json.encode(journal.toMap());
 
       var response = await http.post(
         Uri.parse(getUrl()),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
         body: jsonJournal,
       );
 
@@ -30,13 +33,16 @@ class JournalService {
     }
   }
 
-  Future<bool> edit(String id, Journal journal) async {
+  Future<bool> edit(String id, Journal journal, String token) async {
     try {
       String jsonJournal = json.encode(journal.toMap());
 
       var response = await http.put(
         Uri.parse("${getUrl()}$id"),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
         body: jsonJournal,
       );
 
@@ -50,8 +56,12 @@ class JournalService {
     }
   }
 
-  Future<List<Journal>> getAll() async {
-    http.Response response = await http.get(Uri.parse(getUrl()));
+  Future<List<Journal>> getAll(
+      {required String id, required String token}) async {
+    http.Response response = await http.get(
+      Uri.parse("${url}users/$id/journals"),
+      headers: {"Authorization": "Bearer $token"},
+    );
 
     if (response.statusCode != 200) {
       throw Exception();
