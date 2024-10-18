@@ -11,60 +11,63 @@ class JournalService {
   }
 
   Future<bool> register(Journal journal, String token) async {
-    try {
-      String jsonJournal = json.encode(journal.toMap());
+    String jsonJournal = json.encode(journal.toMap());
 
-      var response = await http.post(
-        Uri.parse(getUrl()),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
-        },
-        body: jsonJournal,
-      );
+    var response = await http.post(
+      Uri.parse(getUrl()),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+      body: jsonJournal,
+    );
 
-      if (response.statusCode == 201) {
-        return true;
-      } else {
-        return false;
+    if (response.statusCode != 201) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
       }
-    } catch (e) {
-      return false;
+
+      throw Exception(response.body);
     }
+
+    return true;
   }
 
   Future<bool> edit(String id, Journal journal, String token) async {
-    try {
-      String jsonJournal = json.encode(journal.toMap());
+    String jsonJournal = json.encode(journal.toMap());
 
-      var response = await http.put(
-        Uri.parse("${getUrl()}$id"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
-        },
-        body: jsonJournal,
-      );
+    var response = await http.put(
+      Uri.parse("${getUrl()}$id"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+      body: jsonJournal,
+    );
 
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
+    if (response.statusCode != 200) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
       }
-    } catch (e) {
-      return false;
+
+      throw Exception(response.body);
     }
+
+    return true;
   }
 
-  Future<List<Journal>> getAll(
-      {required String id, required String token}) async {
+  Future<List<Journal>> getAll({required String id, required String token}) async {
     http.Response response = await http.get(
       Uri.parse("${url}users/$id/journals"),
       headers: {"Authorization": "Bearer $token"},
     );
 
     if (response.statusCode != 200) {
-      throw Exception();
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+
+      throw Exception(response.body);
     }
 
     List<Journal> list = [];
@@ -78,19 +81,21 @@ class JournalService {
   }
 
   Future<bool> delete(String id, String token) async {
-    try {
-      http.Response response = await http.delete(
-        Uri.parse("${getUrl()}$id"),
-        headers: {"Authorization": "Bearer $token"},
-      );
+    http.Response response = await http.delete(
+      Uri.parse("${getUrl()}$id"),
+      headers: {"Authorization": "Bearer $token"},
+    );
 
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
+    if (response.statusCode != 200) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
       }
-    } catch (e) {
-      return false;
+
+      throw Exception(response.body);
     }
+
+    return true;
   }
 }
+
+class TokenNotValidException implements Exception{}
