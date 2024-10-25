@@ -9,6 +9,11 @@
       "email": "samuel23@gmail.com",
       "password": "$2a$10$20q6R6HLcL48C33KSpxcxu6VyP2WgcE7SkrHlvOyPJg6jVbV22iKy",
       "id": 2
+    },
+    {
+      "email": "richard@gmail.com",
+      "password": "$2a$10$UqCQ3V8ka6PEYR3WdnDGo.HIlztvr4yO120pai7UwB/dplsw1EY7m",
+      "id": 3
     }
   ],
   "learnhttp": {
@@ -29,9 +34,9 @@
     },
     {
       "id": "0b272d40-8d7d-11ef-b728-ab670c115216",
-      "content": "Vai? no",
+      "content": "Notcia do dia!",
       "created_at": "2024-10-14 18:16:03.811077",
-      "updated_at": "2024-10-18 19:43:00.003549",
+      "updated_at": "2024-10-18 21:46:40.759953",
       "userId": 1
     },
     {
@@ -40,6 +45,27 @@
       "created_at": "2024-10-13 18:53:17.613219",
       "updated_at": "2024-10-13 18:53:17.613219",
       "userId": 2
+    },
+    {
+      "id": "772ef1e0-8d9a-11ef-b574-f7f1f7e4a692",
+      "content": "Aprender Flutter!",
+      "created_at": "2024-10-09 21:46:25.075506",
+      "updated_at": "2024-10-09 21:46:25.075506",
+      "userId": 1
+    },
+    {
+      "id": "88e28000-8d9a-11ef-b574-f7f1f7e4a692",
+      "content": "Aprender Dart!",
+      "created_at": "2024-10-14 21:46:25.075506",
+      "updated_at": "2024-10-14 21:46:25.075506",
+      "userId": 1
+    },
+    {
+      "id": "d8cc2f90-8db2-11ef-9a6c-4da5aa3e32f3",
+      "content": "Conversa com o Richard!",
+      "created_at": "2024-10-11 00:41:07.606937",
+      "updated_at": "2024-10-11 00:41:07.606937",
+      "userId": 1
     }
   ]
 }
